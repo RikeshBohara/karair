@@ -25,6 +25,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Strong params for Devise sign-up
   def sign_up_params
-    params.require(:users).permit(:email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:email, :password, :password_confirmation, :role)
+  end
+
+  def after_sign_up_path_for(resource)
+    root_path
   end
 end
