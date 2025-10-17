@@ -16,6 +16,11 @@ class Users::SessionsController < Devise::SessionsController
       end
     else
       respond_to do |format|
+        format.html do
+          flash.now[:alert] = "Invalid email or password."
+          self.resource = User.new(email: params[:user][:email])
+          render :new, status: :unprocessable_entity
+      end
         format.json { render json: { error: "Invalid email or password." }, status: :unauthorized }
       end
     end
