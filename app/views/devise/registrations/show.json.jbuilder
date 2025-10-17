@@ -1,6 +1,6 @@
-json.user do
-  json.id @user ? @user.id : resource.id
-  json.email @user ? @user.email : resource.email
-  json.role @user ? @user.role : resource.role
+json.resource do
+  json.id @resource ? @resource.id : resource.id
+  json.email @resource ? @resource.email : resource.email
+  json.role @resource ? @resource.role : resource.role
   json.message "Signed up successfully"
 end
