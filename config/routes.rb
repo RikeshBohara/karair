@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
+  get "profiles/show"
+  get "profiles/edit"
+  get "profiles/update"
   devise_for :users,
               controllers: {
                 sessions: "users/sessions",
                 registrations: "users/registrations"
               }
+
+  resources :profiles, only: [ :show, :edit, :update ]
+
+
   get "home/index"
   get "status" => "application#status"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
