@@ -14,6 +14,8 @@ class Profile < ApplicationRecord
   validates :location, presence: true
 
   validate :resume_format, if: -> { user&.applicant? }
+  validate :photo_size_within_limit
+  validate :resume_size_within_limit, if: -> { user&.applicant? }
 
   after_save :update_profile_completed
 
@@ -48,5 +50,30 @@ class Profile < ApplicationRecord
     unless resume.content_type=="application/pdf"
       errors.add(:resume, "must be a PDF file")
     end
+  end
+
+  # Enforce maximum attachment sizes
+  def photo_size_within_limit
+    return unless photo.attached?
+    max_bytes = 2.megabytes
+    if photo.blob.byte_size > max_bytes
+      errors.add(:photo, "is too large (max 2 MB)")
+    end
+  end
+
+  def resume_size_within_limit
+    return unless resume.attached?
+    max_bytes = 5.megabytes
+    if resume.blob.byte_size > max_bytes
+      errors.add(:resume, "is too large (max 5 MB)")
+    end
+  end
+
+  public
+
+  # Returns an Active Storage variant for the photo sized to a square avatar.
+  def avatar_variant(size_px = 80)
+    return unless photo.attached?
+    photo.variant(resize_to_fill: [ size_px, size_px ]).processed
   end
 end

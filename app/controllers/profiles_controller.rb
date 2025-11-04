@@ -4,18 +4,24 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_profile
   before_action :authorize_profile!, only: [ :edit, :update ]
+  before_action :require_profile_completed!, only: [ :show ]
 
   def show
     respond_with(@profile)
   end
 
   def edit
+    @hide_navbar = true
     respond_with(@profile)
   end
 
   def update
+    @hide_navbar = true
     if @profile.update(profile_params)
-      respond_with(@profile, notice: "Profile updated successfully.")
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "Profile updated successfully." }
+        format.json { render :show, status: :ok }
+      end
     else
       respond_with(@profile) do |format|
         format.html { render :edit, status: :unprocessable_entity }
@@ -32,6 +38,11 @@ class ProfilesController < ApplicationController
 
   def authorize_profile!
     redirect_to profile_path(@profile), alert: "Not authorized" unless @profile.user == current_user
+  end
+
+  def require_profile_completed!
+    return if @profile.user == current_user && current_user.profile_completed
+    redirect_to edit_profile_path(@profile), alert: "Please complete your profile first."
   end
 
   def profile_params

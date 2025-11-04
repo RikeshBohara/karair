@@ -23,7 +23,8 @@
   </head>
 
   <body>
-    <main class="mx-auto flex">
+    <%= render 'shared/navbar' unless @hide_navbar %>
+    <main class="min-h-screen w-full">
       <%= yield %>
     </main>
   </body>

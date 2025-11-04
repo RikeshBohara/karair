@@ -11,8 +11,14 @@ class Users::SessionsController < Devise::SessionsController
       sign_in(@resource)
 
       respond_to do |format|
-      format.html { redirect_to root_path, notice: "Signed in successfully" }
-      format.json { render :create, status: :ok }
+        format.html do
+          if @resource.profile_completed
+            redirect_to root_path, notice: "Signed in successfully"
+          else
+            redirect_to edit_profile_path(@resource.profile), notice: "Signed in successfully"
+          end
+        end
+        format.json { render :create, status: :ok }
       end
     else
       respond_to do |format|
@@ -20,7 +26,7 @@ class Users::SessionsController < Devise::SessionsController
           flash.now[:alert] = "Invalid email or password."
           self.resource = User.new(email: params[:user][:email])
           render :new, status: :unprocessable_entity
-      end
+        end
         format.json { render json: { error: "Invalid email or password." }, status: :unauthorized }
       end
     end
