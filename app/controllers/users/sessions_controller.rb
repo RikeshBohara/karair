@@ -3,6 +3,11 @@ class Users::SessionsController < Devise::SessionsController
   respond_to :html, :json
   skip_before_action :verify_signed_out_user
 
+  def new
+    @hide_navbar = true
+    super
+  end
+
   # POST /users/sign_in
   def create
     @resource = User.find_by(email: params[:user][:email])

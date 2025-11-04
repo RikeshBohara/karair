@@ -1,6 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :json
 
+  def new
+    @hide_navbar = true
+    super
+  end
+
   # POST /users
   def create
     build_resource(sign_up_params)
