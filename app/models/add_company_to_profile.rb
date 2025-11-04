@@ -1,2 +1,0 @@
-class AddCompanyToProfile < ApplicationRecord
-end
