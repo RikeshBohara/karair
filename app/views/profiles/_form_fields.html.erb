@@ -3,52 +3,52 @@
 <%# First & Last Name for applicant %>
 <% if current_user.applicant? %>
   <div>
-    <%= f.label :first_name, "First Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :first_name, placeholder: "First Name", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+    <%= f.label :first_name, "First Name", class: "text-sm text-gray-700 mb-1" %>
+    <%= f.text_field :first_name, placeholder: "First Name", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
   </div>
   <div>
-    <%= f.label :last_name, "Last Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :last_name, placeholder: "Last Name", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+    <%= f.label :last_name, "Last Name", class: "text-sm text-gray-700 mb-1" %>
+    <%= f.text_field :last_name, placeholder: "Last Name", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
   </div>
 <% end %>
 
 <%# Company Name for recruiter %>
 <% if current_user.recruiter? %>
   <div>
-    <%= f.label :company_name, "Company Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :company_name, placeholder: "Company Name", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+    <%= f.label :company_name, "Company Name", class: "text-sm text-gray-700 mb-1" %>
+    <%= f.text_field :company_name, placeholder: "Company Name", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
   </div>
 <% end %>
 
 <div>
-  <%= f.label :headline, "Headline", class: "block text-sm font-medium text-gray-700 mb-1" %>
-  <%= f.text_field :headline, placeholder: "Headline", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+  <%= f.label :headline, "Headline", class: "text-sm text-gray-700 mb-1" %>
+  <%= f.text_field :headline, placeholder: "Your role/position", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
 </div>
 
 <div>
-  <%= f.label :location, "Location", class: "block text-sm font-medium text-gray-700 mb-1" %>
-  <%= f.text_field :location, placeholder: "Location", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+  <%= f.label :location, "Location", class: "text-sm text-gray-700 mb-1" %>
+  <%= f.text_field :location, placeholder: "Location", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
 </div>
 
 <div>
-  <%= f.label :contact, "Contact Number", class: "block text-sm font-medium text-gray-700 mb-1" %>
-  <%= f.text_field :contact, placeholder: "Contact Number", class: "mt-1 block w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
+  <%= f.label :contact, "Contact Number", class: "text-sm text-gray-700 mb-1" %>
+  <%= f.text_field :contact, placeholder: "Contact Number", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
 </div>
 
 <%# File inputs with inline label+input %>
 <% if current_user.applicant? %>
   <div class="flex items-center justify-between gap-3">
-    <%= f.label :photo, "Photo", class: "text-sm font-medium text-gray-700 w-24" %>
+    <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
 
   <div class="flex items-center justify-between gap-3 mt-3">
-    <%= f.label :resume, "Resume", class: "text-sm font-medium text-gray-700 w-24" %>
+    <%= f.label :resume, "Resume", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :resume, accept: "application/pdf", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
 <% else %>
   <div class="flex items-center justify-between gap-3">
-    <%= f.label :photo, "Photo", class: "text-sm font-medium text-gray-700 w-24" %>
+    <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
 <% end %>

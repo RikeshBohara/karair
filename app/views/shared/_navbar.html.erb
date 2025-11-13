@@ -2,7 +2,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex h-full items-center justify-between">
       <div class="flex items-center gap-6">
-        <%= link_to "KarAir", root_path, class: "text-4xl font-black text-orange-600" %>
+        <%= link_to "KarAir", root_path, class: "text-4xl text-orange-600" %>
         <div class="hidden sm:flex items-center gap-4">
           <%= link_to "Home", root_path, class: "text-gray-700 hover:text-gray-900" %>
         </div>
@@ -11,12 +11,12 @@
       <div class="flex items-center gap-4">
         <% if user_signed_in? %>
           <% if current_user.profile&.photo&.attached? %>
-            <%= link_to profile_path(current_user.profile), class: "block p-2" do %>
+            <%= link_to profile_path(current_user.profile), class: "p-2" do %>
               <%= image_tag url_for(current_user.profile.avatar_variant(60)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:60px;width:60px;" %>
             <% end %>
           <% else %>
-            <%= link_to profile_path(current_user.profile), class: "block p-2" do %>
-              <div class="rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-700 border-2 border-gray-300" style="height:60px;width:60px;">
+            <%= link_to profile_path(current_user.profile), class: "p-2" do %>
+              <div class="rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-700 border-2 border-gray-300" style="height:60px;width:60px;">
                 <%= current_user.email.first.upcase %>
               </div>
             <% end %>
