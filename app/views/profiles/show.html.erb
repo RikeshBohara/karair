@@ -1,7 +1,7 @@
 <div class="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 px-6">
 
   <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+    <h2 class="text-2xl text-gray-800 mb-6 text-center">
       Profile
     </h2>
 
@@ -19,19 +19,19 @@
     <%# Basic info %>
     <ul class="space-y-2 text-gray-700">
       <% if @profile.user.applicant? %>
-        <li><strong>First Name:</strong> <%= @profile.first_name %></li>
-        <li><strong>Last Name:</strong> <%= @profile.last_name %></li>
+        <li><span class="mr-10">First Name</span>: <%= @profile.first_name %></li>
+        <li><span class="mr-10">Last Name</span>: <%= @profile.last_name %></li>
       <% elsif @profile.user.recruiter? %>
-        <li><strong>Company Name:</strong> <%= @profile.company_name %></li>
+        <li><span class="mr-20">Company Name</span>: <%= @profile.company_name %></li>
       <% end %>
 
-      <li><strong>Headline:</strong> <%= @profile.headline.presence || "N/A" %></li>
-      <li><strong>Location:</strong> <%= @profile.location %></li>
-      <li><strong>Contact:</strong> <%= @profile.contact %></li>
+      <li><span class="mr-13.5">Headline</span>: <%= @profile.headline.presence || "N/A" %></li>
+      <li><span class="mr-14">Location</span>: <%= @profile.location %></li>
+      <li><span class="mr-15.5">Contact</span>: <%= @profile.contact %></li>
 
       <% if @profile.user.applicant? %>
-        <li>
-          <strong>Resume:</strong>
+        <li><span class="mr-15.5">
+          Resume</span>:
           <% if @profile.resume.attached? %>
             <a href="<%= url_for(@profile.resume) %>" target="_blank" class="text-blue-600 hover:underline">Download</a>
           <% else %>
@@ -42,7 +42,7 @@
     </ul>
 
     <div class="mt-6 flex justify-between">
-      <%= link_to "Edit Profile", edit_profile_path(@profile), class: "bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200" %>
+      <%= link_to "Edit Profile", edit_profile_path(@profile), class: "bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200" %>
       <%= link_to "Back", :back, class: "text-gray-600 hover:underline self-center" %>
     </div>
   </div>
