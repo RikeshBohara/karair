@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def status
     if current_user
-      render json: { loggedIn: true, user: current_user.as_json(only: [ :id, :email, :role ]) }
+      render json: { loggedIn: true, user: current_user.as_json(only: [ :id, :email, :role, :profile_completed ]) }
     else
       render json: { loggedIn: false }
     end
