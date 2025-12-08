@@ -1,0 +1,49 @@
+<div class="container mx-auto px-4">
+  <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+    <% if @job.image.attached? %>
+      <div class="flex justify-center mb-4">
+        <%= image_tag @job.image, class: "w-1/2 h-64 object-cover rounded-lg" %>
+      </div>
+    <% end %>
+    <h1 class="text-2xl font-bold mb-4"><%= @job.title %></h1>
+    <p class="text-gray-600"><%= @job.location %></p>
+    <p class="text-gray-600"><%= @job.job_type %></p>
+    <p class="text-gray-600">Application deadline: <%= @job.end_date.strftime("%B %d, %Y") %></p>
+    <div class="mt-4">
+      <%= @job.description %>
+    </div>
+
+    <% if current_user&.applicant? %>
+      <div class="mt-4">
+        <% if @job.job_applications.exists?(user_id: current_user.id) %>
+          <span class="bg-green-500 text-white font-bold py-2 px-4 rounded">Applied</span>
+        <% else %>
+          <%= link_to 'Apply for this job', new_job_job_application_path(@job), class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if current_user == @job.user %>
+    <div class="bg-white shadow-md rounded-lg p-4 mt-4">
+      <h2 class="text-xl font-bold mb-4">Applicants</h2>
+      <% if @job_applications.any? %>
+        <% @job_applications.each do |application| %>
+          <div class="border-b pb-4 mb-4">
+            <p class="font-bold">Applicant: <%= link_to application.user.email, profile_path(application.user.profile) if application.user.profile %></p>
+            <p>Cover Letter: <%= application.cover_letter %></p>
+            <% if application.user.profile&.resume&.attached? %>
+              <%= link_to "View Resume", rails_blob_path(application.user.profile.resume, disposition: "attachment"), class: "text-blue-600 hover:underline" %>
+            <% end %>
+            <%= button_to "Send Interview Email", send_interview_email_job_path(@job, application_id: application.id), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-2" %>
+          </div>
+        <% end %>
+      <% else %>
+        <p>No applications yet.</p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 flex gap-2">
+    <%= link_to 'Edit', edit_job_path(@job), class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" if current_user == @job.user %>
+    <%= link_to 'Back', jobs_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>

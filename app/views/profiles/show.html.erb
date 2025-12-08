@@ -22,10 +22,10 @@
         <li><span class="mr-10">First Name</span>: <%= @profile.first_name %></li>
         <li><span class="mr-10">Last Name</span>: <%= @profile.last_name %></li>
       <% elsif @profile.user.recruiter? %>
-        <li><span class="mr-20">Company Name</span>: <%= @profile.company_name %></li>
+        <li><span class="mr-19.5">Name</span>: <%= @profile.company_name %></li>
       <% end %>
 
-      <li><span class="mr-13.5">Headline</span>: <%= @profile.headline.presence || "N/A" %></li>
+      <li><span class="mr-14.5">Industry</span>: <%= @profile.headline.presence || "N/A" %></li>
       <li><span class="mr-14">Location</span>: <%= @profile.location %></li>
       <li><span class="mr-15.5">Contact</span>: <%= @profile.contact %></li>
 

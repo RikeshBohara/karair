@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
 
+  has_many :jobs, dependent: :destroy
+  has_many :job_applications, dependent: :destroy
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
+
   after_create :build_default_profile
 
   def build_default_profile

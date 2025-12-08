@@ -4,27 +4,39 @@
       <div class="flex items-center gap-6">
         <%= link_to "KarAir", root_path, class: "text-4xl text-orange-600" %>
         <div class="hidden sm:flex items-center gap-4">
-          <%= link_to "Home", root_path, class: "text-gray-700 hover:text-gray-900" %>
+          <% if user_signed_in? %>
+            <%= link_to "Dashboard", root_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Jobs", jobs_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          <% else %>
+            <%= link_to "Home", root_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          <% end %>
         </div>
       </div>
 
       <div class="flex items-center gap-4">
         <% if user_signed_in? %>
-          <% if current_user.profile&.photo&.attached? %>
-            <%= link_to profile_path(current_user.profile), class: "p-2" do %>
-              <%= image_tag url_for(current_user.profile.avatar_variant(60)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:60px;width:60px;" %>
+          <% if current_user.recruiter? %>
+            <%= link_to notifications_path, class: "hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium relative text-gray-700" do %>
+              <i class="fa-solid fa-bell text-xl"></i>
+              <% if current_user.notifications.unread.any? %>
+                <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2"><%= current_user.notifications.unread.count %></span>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= link_to profile_path(current_user.profile), class: "p-2" do %>
-              <div class="rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-700 border-2 border-gray-300" style="height:60px;width:60px;">
+          <% end %>
+
+          <%= link_to profile_path(current_user.profile), class: "p-2 flex-shrink-0" do %>
+            <% if current_user.profile&.photo&.attached? %>
+              <%= image_tag url_for(current_user.profile.avatar_variant(60)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:40px;width:40px;" %>
+            <% else %>
+              <div class="rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-700 border-2 border-gray-300" style="height:40px;width:40px;">
                 <%= current_user.email.first.upcase %>
               </div>
             <% end %>
           <% end %>
 
-          <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "ml-2 text-sm text-gray-600 hover:text-gray-900" %>
+          <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "ml-2 text-sm text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md font-medium" %>
         <% else %>
-          <%= link_to "Sign in", new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-900" %>
+          <%= link_to "Sign in", new_user_session_path, class: "text-sm text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md font-medium" %>
         <% end %>
       </div>
     </div>

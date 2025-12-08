@@ -20,7 +20,7 @@ class Users::SessionsController < Devise::SessionsController
           if @resource.profile_completed
             redirect_to root_path, notice: "Signed in successfully"
           else
-            redirect_to edit_profile_path(@resource.profile), notice: "Signed in successfully"
+            redirect_to edit_profile_path(@resource.id), notice: "Signed in successfully"
           end
         end
         format.json { render :create, status: :ok }

@@ -7,12 +7,12 @@ class ProfilesController < ApplicationController
   before_action :require_profile_completed!, only: [ :show ]
 
   def show
-    respond_with(@profile)
+    respond_with(@profile.user.id)
   end
 
   def edit
     @hide_navbar = true
-    respond_with(@profile)
+    respond_with(@profile.user.id)
   end
 
   def update
@@ -33,16 +33,16 @@ class ProfilesController < ApplicationController
   private
 
   def set_profile
-    @profile = Profile.find(params[:id])
+    @profile = Profile.find_by(user_id: params[:id].to_i)
   end
 
   def authorize_profile!
-    redirect_to profile_path(@profile), alert: "Not authorized" unless @profile.user == current_user
+    redirect_to profile_path(@profile.user.id), alert: "Not authorized" unless @profile.user == current_user
   end
 
   def require_profile_completed!
     return if @profile.user == current_user && current_user.profile_completed
-    redirect_to edit_profile_path(@profile), alert: "Please complete your profile first."
+    redirect_to edit_profile_path(@profile.user.id), alert: "Please complete your profile first."
   end
 
   def profile_params

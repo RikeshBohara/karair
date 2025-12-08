@@ -1,0 +1,76 @@
+class JobsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_job, only: [:show, :edit, :update, :destroy, :send_interview_email]
+  before_action :authorize_job_owner, only: [:edit, :update, :destroy]
+
+  def index
+    @jobs = Job.active
+  end
+
+  def show
+    @job_applications = @job.job_applications
+  end
+
+  def new
+    @job = Job.new
+  end
+
+  def create
+    @job = current_user.jobs.build(job_params)
+    if @job.save
+      redirect_to @job, notice: 'Job was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if job_params[:remove_image].present? && job_params[:remove_image].to_b
+      @job.image.purge
+    end
+
+    if @job.update(job_params.except(:remove_image))
+      redirect_to @job, notice: 'Job was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @job.destroy
+    redirect_to jobs_url, notice: 'Job was successfully destroyed.'
+  end
+
+  def send_interview_email
+    unless current_user.profile&.company_name.present?
+      redirect_to @job, alert: "Please complete your profile, including your company name, before sending interview emails."
+      return
+    end
+
+    @job_application = JobApplication.find(params[:application_id])
+    if InterviewMailer.interview_email(@job, @job_application.user, current_user).deliver_now
+      redirect_to @job, notice: "Interview email sent to #{@job_application.user.email}."
+    else
+      redirect_to @job, alert: "Failed to send interview email."
+    end
+  end
+
+  private
+
+  def set_job
+    @job = Job.find(params[:id])
+  end
+
+  def authorize_job_owner
+    unless @job.user == current_user
+      redirect_to jobs_path, alert: "You are not authorized to perform this action."
+    end
+  end
+
+  def job_params
+    params.require(:job).permit(:title, :description, :location, :job_type, :image, :remove_image, :end_date)
+  end
+end
