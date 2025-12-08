@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styling */
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Interview Invitation</h1>
+      <p>Dear <%= @applicant.profile.first_name %> <%= @applicant.profile.last_name %>,</p>
+      <p>Thank you for your interest in the <%= @job.title %> position at <%= @recruiter.profile.company_name %>. We were impressed with your application and would like to invite you for an interview.</p>
+      <p>Please reply to this email to schedule a suitable time for your interview.</p>
+      <p>We look forward to speaking with you.</p>
+      <p>Sincerely,</p>
+      <p><%= @recruiter.profile.first_name %> <%= @recruiter.profile.last_name %></p>
+      <p><%= @recruiter.profile.company_name %></p>
+      <p><%= @recruiter.email %></p>
+      <div class="footer">
+        <p>This email was sent from KarAir.</p>
+      </div>
+    </div>
+  </body>
+</html>

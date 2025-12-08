@@ -1,0 +1,34 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Your Notifications</h1>
+    <div class="flex space-x-4">
+      <%= link_to "Unread", notifications_path, class: "px-4 py-2 rounded-md text-sm font-medium #{'bg-blue-600 text-white' if params[:status] != 'all'}" %>
+      <%= link_to "All", notifications_path(status: 'all'), class: "px-4 py-2 rounded-md text-sm font-medium #{'bg-blue-600 text-white' if params[:status] == 'all'}" %>
+    </div>
+  </div>
+
+  <% if @notifications.any? %>
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <% @notifications.each do |notification| %>
+        <div class="border-b border-gray-200 last:border-b-0 py-4 <%= notification.read_at? ? 'opacity-60' : 'bg-blue-50 bg-opacity-50 border-l-4 border-blue-500' %>">
+          <div class="flex justify-between items-center">
+            <p class="text-gray-700 <%= notification.read_at? ? '' : 'font-semibold' %>">
+              <%= notification.message %>
+            </p>
+            <% unless notification.read_at? %>
+              <%= button_to "Mark as Read", mark_as_read_notification_path(notification), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <% end %>
+          </div>
+          <p class="text-sm text-gray-500 mt-1">
+            <%= time_ago_in_words(notification.created_at) %> ago
+            <% unless notification.read_at? %>
+              <span class="text-blue-500">(New)</span>
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center text-gray-500 text-lg mt-10">You have no notifications.</p>
+  <% end %>
+</div>

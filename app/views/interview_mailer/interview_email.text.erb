@@ -1,0 +1,14 @@
+Dear <%= @applicant.profile.first_name %> <%= @applicant.profile.last_name %>,
+
+Thank you for your interest in the <%= @job.title %> position at <%= @recruiter.profile.company_name %>. We were impressed with your application and would like to invite you for an interview.
+
+Please reply to this email to schedule a suitable time for your interview.
+
+We look forward to speaking with you.
+
+Sincerely,
+<%= @recruiter.profile.first_name %> <%= @recruiter.profile.last_name %>
+<%= @recruiter.profile.company_name %>
+<%= @recruiter.email %>
+
+This email was sent from KarAir.

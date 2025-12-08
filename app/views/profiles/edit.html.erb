@@ -22,7 +22,7 @@
       </div>
     <% end %>
 
-    <%= form_for(@profile, html: { multipart: true, class: "space-y-5" }) do |f| %>
+    <%= form_with(model: @profile, html: { multipart: true, class: "space-y-5" }) do |f| %>
 
       <%# Fields %>
       <%= render "form_fields", f: f %>
@@ -37,7 +37,7 @@
       <% if current_user.profile_completed %>
         <%= link_to "Back", root_path, class: "text-blue-600 hover:underline text-sm" %>
       <% else %>
-        <%= link_to "Back", edit_profile_path(@profile), class: "text-blue-600 hover:underline text-sm" %>
+        <%= link_to "Back", edit_profile_path(@profile.user.id), class: "text-blue-600 hover:underline text-sm" %>
       <% end %>
     </div>
   </div>
