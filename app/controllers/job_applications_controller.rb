@@ -1,6 +1,24 @@
 class JobApplicationsController < ApplicationController
+  respond_to :html, :json
   before_action :authenticate_user!
-  before_action :set_job, only: [:new, :create]
+  before_action :set_job, only: [ :index, :new, :create ]
+  before_action :set_job_application, only: [ :show ]
+
+  def index
+    @job_applications = @job.job_applications
+    respond_to do |format|
+      format.html
+      format.json { render "index.json.jbuilder" }
+    end
+  end
+
+  def show
+    @job_application = JobApplication.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render "show.json.jbuilder" }
+    end
+  end
 
   def new
     @job_application = @job.job_applications.build
@@ -16,7 +34,7 @@ class JobApplicationsController < ApplicationController
         notifiable: @job_application,
         message: "#{current_user.profile.first_name} #{current_user.profile.last_name} applied to your job '#{@job.title}'"
       )
-      redirect_to @job, notice: 'You have successfully applied for this job.'
+      redirect_to @job, notice: "You have successfully applied for this job."
     else
       render :new
     end
@@ -30,5 +48,9 @@ class JobApplicationsController < ApplicationController
 
   def job_application_params
     params.require(:job_application).permit(:cover_letter)
+  end
+
+  def set_job_application
+    @job_application = JobApplication.find(params[:id])
   end
 end

@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :jobs do
-    resources :job_applications, only: [:new, :create]
-    post 'send_interview_email', on: :member
+    resources :job_applications, only: [ :index, :show, :new, :create ]
+    post "send_interview_email", on: :member
   end
 
   get "profiles/show"
@@ -16,8 +16,8 @@ Rails.application.routes.draw do
               }
 
   resources :profiles, only: [ :show, :edit, :update ]
-  resources :notifications, only: [:index] do
-    post 'mark_as_read', on: :member
+  resources :notifications, only: [ :index ] do
+    post "mark_as_read", on: :member
   end
 
 
