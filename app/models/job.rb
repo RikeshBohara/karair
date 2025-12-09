@@ -5,7 +5,7 @@ class Job < ApplicationRecord
   enum :job_type, { "Full-time": 0, "Part-time": 1, "Contract": 2, "Internship": 3 }
 
   has_one_attached :image do |attachable|
-    attachable.variant :card_image, resize_to_fill: [400, 300]
+    attachable.variant :card_image, resize_to_fill: [ 400, 300 ]
   end
 
   before_destroy :purge_image

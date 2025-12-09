@@ -1,14 +1,23 @@
 class JobsController < ApplicationController
+  respond_to :html, :json
   before_action :authenticate_user!
-  before_action :set_job, only: [:show, :edit, :update, :destroy, :send_interview_email]
-  before_action :authorize_job_owner, only: [:edit, :update, :destroy]
+  before_action :set_job, only: [ :show, :edit, :update, :destroy, :send_interview_email ]
+  before_action :authorize_job_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @jobs = Job.active
+    respond_to do |format|
+      format.html
+      format.json { render "index.json.jbuilder" }
+    end
   end
 
   def show
     @job_applications = @job.job_applications
+    respond_to do |format|
+      format.html
+      format.json { render "show.json.jbuilder" }
+    end
   end
 
   def new
@@ -18,7 +27,7 @@ class JobsController < ApplicationController
   def create
     @job = current_user.jobs.build(job_params)
     if @job.save
-      redirect_to @job, notice: 'Job was successfully created.'
+      redirect_to @job, notice: "Job was successfully created."
     else
       render :new
     end
@@ -33,7 +42,7 @@ class JobsController < ApplicationController
     end
 
     if @job.update(job_params.except(:remove_image))
-      redirect_to @job, notice: 'Job was successfully updated.'
+      redirect_to @job, notice: "Job was successfully updated."
     else
       render :edit
     end
@@ -41,7 +50,7 @@ class JobsController < ApplicationController
 
   def destroy
     @job.destroy
-    redirect_to jobs_url, notice: 'Job was successfully destroyed.'
+    redirect_to jobs_url, notice: "Job was successfully destroyed."
   end
 
   def send_interview_email
