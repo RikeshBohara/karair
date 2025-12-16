@@ -17,6 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         format.html { redirect_to after_sign_up_path_for(resource), notice: "Signed up successfully" }
         format.json { render :show, status: :created }
       else
+        @hide_navbar = true
         clean_up_passwords resource
         set_minimum_password_length
 

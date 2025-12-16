@@ -28,6 +28,7 @@ class Users::SessionsController < Devise::SessionsController
     else
       respond_to do |format|
         format.html do
+          @hide_navbar = true
           flash.now[:alert] = "Invalid email or password."
           self.resource = User.new(email: params[:user][:email])
           render :new, status: :unprocessable_entity
