@@ -8,7 +8,7 @@ class JobsController < ApplicationController
     @jobs = Job.active
     respond_to do |format|
       format.html
-      format.json { render "index.json.jbuilder" }
+      format.json
     end
   end
 
@@ -16,7 +16,7 @@ class JobsController < ApplicationController
     @job_applications = @job.job_applications
     respond_to do |format|
       format.html
-      format.json { render "show.json.jbuilder" }
+      format.json
     end
   end
 

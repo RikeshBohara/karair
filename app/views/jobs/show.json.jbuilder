@@ -4,6 +4,7 @@ if @job.image.attached?
   json.image_url url_for(@job.image)
 end
 json.job_applications @job_applications do |application|
-  json.extract! application, :id, :status, :created_at
+  json.extract! application, :id, :created_at
   json.applicant_email application.user.email
 end
+

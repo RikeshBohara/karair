@@ -7,11 +7,11 @@ export default class extends Controller {
   connect() {
     setTimeout(() => {
       this.remove()
-    }, 5000) // Toast disappears after 5 seconds
+    }, 2000)
   }
 
   remove() {
-    this.messageTarget.classList.add("opacity-0", "transition-opacity", "duration-500", "ease-out")
+    this.messageTarget.classList.add("opacity-0", "transition-opacity", "duration-200", "ease-out")
     this.messageTarget.addEventListener("transitionend", () => {
       this.messageTarget.remove()
     }, { once: true })

@@ -8,7 +8,7 @@ class JobApplicationsController < ApplicationController
     @job_applications = @job.job_applications
     respond_to do |format|
       format.html
-      format.json { render "index.json.jbuilder" }
+      format.json
     end
   end
 
@@ -16,7 +16,7 @@ class JobApplicationsController < ApplicationController
     @job_application = JobApplication.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render "show.json.jbuilder" }
+      format.json
     end
   end
 
