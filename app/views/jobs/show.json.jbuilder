@@ -7,4 +7,3 @@ json.job_applications @job_applications do |application|
   json.extract! application, :id, :created_at
   json.applicant_email application.user.email
 end
-
