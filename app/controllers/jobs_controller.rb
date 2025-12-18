@@ -61,6 +61,7 @@ class JobsController < ApplicationController
 
     @job_application = JobApplication.find(params[:application_id])
     if InterviewMailer.interview_email(@job, @job_application.user, current_user).deliver_now
+      @job_application.emailed!
       redirect_to @job, notice: "Interview email sent to #{@job_application.user.email}."
     else
       redirect_to @job, alert: "Failed to send interview email."

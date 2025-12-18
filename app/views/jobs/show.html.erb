@@ -30,12 +30,17 @@
       <% if @job_applications.any? %>
         <% @job_applications.each do |application| %>
           <div class="border-b pb-4 mb-4">
+            <div class="flex items-center gap-2">
             <p class="font-bold">Applicant: <%= link_to application.user.email, profile_path(application.user.profile) if application.user.profile %></p>
+            <p class="text-sm text-gray-600">(<%= application.status.humanize %>)</p>
+            </div>
             <p>Cover Letter: <%= simple_format(application.cover_letter) %></p>
             <% if application.user.profile&.resume&.attached? %>
               <%= link_to "View Resume", rails_blob_path(application.user.profile.resume), target: "_blank", class: "text-blue-600 hover:underline" %>
             <% end %>
-            <%= button_to "Send Interview Email", send_interview_email_job_path(@job, application_id: application.id), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-2" %>
+            <% if application.pending? %>
+              <%= button_to "Send Interview Email", send_interview_email_job_path(@job, application_id: application.id), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-2" %>
+            <% end %>
           </div>
         <% end %>
       <% else %>
