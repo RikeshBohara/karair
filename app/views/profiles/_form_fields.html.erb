@@ -1,8 +1,24 @@
 <%# _form_fields.html.erb %>
-
-<%# First & Last Name for applicant %>
 <% if current_user.applicant? %>
-  <div>
+    <div>
+      <div class="flex justify-center mb-4">
+        <div class="relative group cursor-pointer inline-block" onclick="document.getElementById('profile_photo_input_applicant').click()">
+          <div id="photo_preview_applicant" class="w-32 h-32 relative z-10">
+            <% if @profile.photo.attached? %>
+              <%= image_tag url_for(@profile.photo), alt: "Profile Photo", class: "w-32 h-32 rounded-full object-cover transition-opacity group-hover:opacity-75" %>
+            <% else %>
+              <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 transition-opacity group-hover:opacity-75">
+                No Photo
+              </div>
+            <% end %>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center rounded-full transition-all duration-200 pointer-events-none z-20 opacity-0 group-hover:opacity-100 group-hover:bg-black group-hover:bg-opacity-50">
+            <span class="text-white font-medium">Edit</span>
+          </div>
+          <%= f.file_field :photo, accept: "image/*", id: "profile_photo_input_applicant", class: "hidden", onchange: "previewPhoto('profile_photo_input_applicant', 'photo_preview_applicant')" %>
+        </div>
+    </div>
+
     <%= f.label :first_name, "First Name", class: "text-sm text-gray-700 mb-1" %>
     <%= f.text_field :first_name, placeholder: "First Name", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
   </div>
@@ -12,8 +28,25 @@
   </div>
 <% end %>
 
-<%# Company Name for recruiter %>
 <% if current_user.recruiter? %>
+    <div>
+      <div class="flex justify-center mb-4">
+        <div class="relative group cursor-pointer inline-block" onclick="document.getElementById('profile_photo_input_recruiter').click()">
+          <div id="photo_preview_recruiter" class="w-32 h-32 relative z-10">
+            <% if @profile.photo.attached? %>
+              <%= image_tag url_for(@profile.photo), alt: "Profile Photo", class: "w-32 h-32 rounded-full object-cover transition-opacity group-hover:opacity-75" %>
+            <% else %>
+              <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 transition-opacity group-hover:opacity-75">
+                No Photo
+              </div>
+            <% end %>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center rounded-full transition-all duration-200 pointer-events-none z-20 opacity-0 group-hover:opacity-100 group-hover:bg-black group-hover:bg-opacity-50">
+            <span class="text-white font-medium">Edit</span>
+          </div>
+          <%= f.file_field :photo, accept: "image/*", id: "profile_photo_input_recruiter", class: "hidden", onchange: "previewPhoto('profile_photo_input_recruiter', 'photo_preview_recruiter')" %>
+        </div>
+    </div>
   <div>
     <%= f.label :company_name, "Company Name", class: "text-sm text-gray-700 mb-1" %>
     <%= f.text_field :company_name, placeholder: "Company Name", class: "mt-1 w-full rounded-lg border py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:border-blue-500" %>
@@ -37,24 +70,8 @@
 
 <%# File inputs with inline label+input %>
 <% if current_user.applicant? %>
-  <div class="flex items-center justify-between gap-3">
-    <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
-    <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
-  </div>
-  <% if current_user.profile&.photo&.attached? %>
-    <%= image_tag url_for(current_user.profile.avatar_variant(80)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:80px;width:80px;" %>
-  <% end %>
-
   <div class="flex items-center justify-between gap-3 mt-3">
     <%= f.label :resume, "Resume", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :resume, accept: "application/pdf", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
-<% else %>
-  <div class="flex items-center justify-between gap-3">
-    <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
-    <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
-  </div>
-  <% if current_user.profile&.photo&.attached? %>
-    <%= image_tag url_for(current_user.profile.avatar_variant(80)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:80px;width:80px;" %>
-  <% end %>
 <% end %>

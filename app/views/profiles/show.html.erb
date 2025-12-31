@@ -28,6 +28,7 @@
         <li><span class="mr-14.5">Industry</span>: <%= @profile.headline.presence || "N/A" %></li>
         <li><span class="mr-14">Location</span>: <%= @profile.location %></li>
         <li><span class="mr-15.5">Contact</span>: <%= @profile.contact %></li>
+        <li><span class="mr-20">Email</span>: <%= @profile.user.email %></li>
       </ul>
     </div>
     <% if @profile.user.applicant? %>
