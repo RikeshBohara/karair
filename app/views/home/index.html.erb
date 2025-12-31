@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-100">
   <div class="max-w-7xl mx-auto p-6">
     <% if user_signed_in? && current_user.applicant? %>
-      <div">
+      <div>
         <h2 class="text-2xl text-center text-gray-800">Your Applied Jobs</h2>
         <% if @applied_jobs.present? %>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -18,6 +18,11 @@
                   <h2 class="text-xl text-gray-800 mb-2">
                     <%= link_to job.title, job, class: "hover:text-blue-600" %>
                   </h2>
+                  <% if job.user.profile&.company_name.present? %>
+                    <p class="text-gray-700 text-sm mb-2 font-medium">
+                      <i class="fas fa-building mr-1 text-gray-500 text-base"></i> <%= job.user.profile.company_name %>
+                    </p>
+                  <% end %>
                   <p class="text-gray-600 text-sm mb-1">
                     <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
                   </p>
@@ -60,6 +65,11 @@
                   <h2 class="text-xl text-gray-800 mb-2">
                     <%= link_to job.title, job, class: "hover:text-blue-600" %>
                   </h2>
+                  <% if job.user.profile&.company_name.present? %>
+                    <p class="text-gray-700 text-sm mb-2 font-medium">
+                      <i class="fas fa-building mr-1 text-gray-500 text-base"></i> <%= job.user.profile.company_name %>
+                    </p>
+                  <% end %>
                   <p class="text-gray-600 text-sm mb-1">
                     <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
                   </p>
@@ -101,6 +111,11 @@
                   <h2 class="text-xl text-gray-800 mb-2">
                     <%= link_to job.title, job, class: "hover:text-blue-600" %>
                   </h2>
+                  <% if job.user.profile&.company_name.present? %>
+                    <p class="text-gray-700 text-sm mb-2 font-medium">
+                      <i class="fas fa-building mr-1 text-gray-500 text-base"></i> <%= job.user.profile.company_name %>
+                    </p>
+                  <% end %>
                   <p class="text-gray-600 text-sm mb-1">
                     <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
                   </p>
