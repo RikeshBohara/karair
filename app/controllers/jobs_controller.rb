@@ -37,10 +37,6 @@ class JobsController < ApplicationController
   end
 
   def update
-    if job_params[:remove_image].present? && job_params[:remove_image].to_b
-      @job.image.purge
-    end
-
     if @job.update(job_params.except(:remove_image))
       redirect_to @job, notice: "Job was successfully updated."
     else

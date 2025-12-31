@@ -1,22 +1,39 @@
-<div class="container mx-auto px-4">
-  <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+<div class="container mx-auto px-4 h-full">
+  <div class="bg-white shadow-md rounded-lg p-4 w-3/4 mx-auto">
     <% if @job.image.attached? %>
-      <div class="flex justify-center mb-4">
-        <%= image_tag @job.image, class: "w-1/2 h-64 object-cover rounded-lg" %>
+      <div class="flex justify-center items-center mb-4">
+        <%= image_tag @job.image, class: "w-full h-70 object-cover rounded-lg" %>
       </div>
     <% end %>
-    <h1 class="text-2xl font-bold mb-4"><%= @job.title %></h1>
-    <p class="text-gray-600"><%= @job.location %></p>
-    <p class="text-gray-600"><%= @job.job_type %></p>
-    <p class="text-gray-600">Application deadline: <%= @job.end_date.strftime("%B %d, %Y") %></p>
-    <div class="mt-4">
-      <%= simple_format(@job.description) %>
+     <p class="text-gray-600 text-sm mb-1">
+      <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= @job.location %>
+    </p>
+    <p class="text-gray-600 text-sm mb-3">
+      <i class="fas fa-briefcase mr-1 text-gray-500 text-base"></i> <%= @job.job_type %>
+    </p>
+    <p class="text-gray-600 text-sm mb-3">
+      <i class="fas fa-calendar-alt mr-1 text-gray-500 text-base"></i> Application deadline: <%= @job.end_date.strftime("%B %d, %Y") %>
+    </p>
+    <p class="text-gray-600 text-sm mb-3">
+      <i class="fas fa-users mr-1 text-gray-500 text-base"></i> <%= pluralize(@job.job_applications.count, "applicant") %>
+    </p>
+    
+    <div class="mt-6 mb-6 border-t border-gray-200 pt-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">About the job</h3>
+      <div class="prose prose-gray max-w-none">
+        <div id="description-short" class="text-gray-700 leading-relaxed whitespace-pre-line line-clamp-4"><%= @job.description %></div>
+        <div id="description-full" class="text-gray-700 leading-relaxed whitespace-pre-line hidden"><%= @job.description %></div>
+        <button id="toggle-description" onclick="toggleDescription()" class="mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm">
+          Show more
+        </button>
+      </div>
     </div>
+
 
     <% if current_user&.applicant? %>
       <div class="mt-4">
         <% if @job.job_applications.exists?(user_id: current_user.id) %>
-          <span class="bg-green-500 text-white font-bold py-2 px-4 rounded">Applied</span>
+          <span class="bg-green-500 text-white py-2 px-4 rounded">Applied</span>
         <% else %>
           <%= link_to 'Apply for this job', new_job_job_application_path(@job), class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
         <% end %>
@@ -25,30 +42,113 @@
   </div>
 
   <% if current_user == @job.user %>
-    <div class="bg-white shadow-md rounded-lg p-4 mt-4">
-      <h2 class="text-xl font-bold mb-4">Applicants</h2>
+    <div class="bg-white shadow-md rounded-lg p-6 mt-4 w-3/4 mx-auto">
+      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-900">Applicants</h2>
       <% if @job_applications.any? %>
-        <% @job_applications.each do |application| %>
-          <div class="border-b pb-4 mb-4">
-            <div class="flex items-center gap-2">
-            <p class="font-bold">Applicant: <%= link_to application.user.email, profile_path(application.user.profile) if application.user.profile %></p>
-            <p class="text-sm text-gray-600">(<%= application.status.humanize %>)</p>
+        <div class="space-y-4">
+          <% @job_applications.each_with_index do |application, index| %>
+            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <% if application.user.profile&.photo&.attached? %>
+                    <%= image_tag url_for(application.user.profile.avatar_variant(60)), alt: "Avatar", class: "rounded-full object-cover border-2 border-gray-300", style: "height:60px;width:60px;" %>
+                  <% else %>
+                    <div class="rounded-full bg-gray-200 flex items-center justify-center text-lg text-gray-700 border-2 border-gray-300" style="height:60px;width:60px;">
+                      <%= application.user.email.first.upcase %>
+                    </div>
+                  <% end %>
+                  <div>
+                    <% if application.user.profile %>
+                      <%= link_to "#{application.user.profile.first_name} #{application.user.profile.last_name}", profile_path(application.user.id), class: "text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors" %>
+                    <% else %>
+                      <span class="text-lg font-semibold text-gray-900"><%= application.user.email %></span>
+                    <% end %>
+                    <p class="text-sm text-gray-500"><%= application.user.email %></p>
+                    <span class="inline-block mt-1 px-2 py-1 text-xs font-medium rounded <%= application.status == 'pending' ? 'bg-yellow-100 text-yellow-800' : application.status == 'accepted' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                      <%= application.status.humanize %>
+                    </span>
+                  </div>
+                </div>
+                <button onclick="toggleDetails(<%= index %>)" id="toggle-btn-<%= index %>" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                  View Details
+                </button>
+              </div>
+              
+              <!-- Details Section -->
+              <div id="details-<%= index %>" class="hidden mt-4 pt-4 border-t border-gray-200">
+                <% if application.user.profile %>
+                  <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Profile Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                      <% if application.user.applicant? %>
+                        <div>
+                          <span class="font-medium text-gray-600">First Name:</span>
+                          <span class="ml-2"><%= application.user.profile.first_name.presence || "N/A" %></span>
+                        </div>
+                        <div>
+                          <span class="font-medium text-gray-600">Last Name:</span>
+                          <span class="ml-2"><%= application.user.profile.last_name.presence || "N/A" %></span>
+                        </div>
+                      <% elsif application.user.recruiter? %>
+                        <div>
+                          <span class="font-medium text-gray-600">Company:</span>
+                          <span class="ml-2"><%= application.user.profile.company_name.presence || "N/A" %></span>
+                        </div>
+                      <% end %>
+                      <div>
+                        <span class="font-medium text-gray-600">Headline:</span>
+                        <span class="ml-2"><%= application.user.profile.headline.presence || "N/A" %></span>
+                      </div>
+                      <div>
+                        <span class="font-medium text-gray-600">Location:</span>
+                        <span class="ml-2"><%= application.user.profile.location.presence || "N/A" %></span>
+                      </div>
+                      <div>
+                        <span class="font-medium text-gray-600">Contact:</span>
+                        <span class="ml-2"><%= application.user.profile.contact.presence || "N/A" %></span>
+                      </div>
+                    </div>
+                    
+                    <% if application.user.profile&.resume&.attached? %>
+                      <div class="mt-4">
+                        <%= link_to rails_blob_path(application.user.profile.resume), target: "_blank", class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" do %>
+                          <i class="fas fa-file-pdf mr-2"></i>
+                          View Resume
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+                
+                <div class="border-t border-gray-200 pt-4">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-3">Cover Letter</h3>
+                  <div class="text-gray-700 whitespace-pre-line bg-gray-50 p-4 rounded-lg">
+                    <%= application.cover_letter %>
+                  </div>
+                </div>
+                
+                <% if application.pending? %>
+                  <div class="mt-4">
+                    <%= button_to "Send Interview Email", send_interview_email_job_path(@job, application_id: application.id), method: :post, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+                  </div>
+                <% end %>
+              </div>
             </div>
-            <p>Cover Letter: <%= simple_format(application.cover_letter) %></p>
-            <% if application.user.profile&.resume&.attached? %>
-              <%= link_to "View Resume", rails_blob_path(application.user.profile.resume), target: "_blank", class: "text-blue-600 hover:underline" %>
-            <% end %>
-            <% if application.pending? %>
-              <%= button_to "Send Interview Email", send_interview_email_job_path(@job, application_id: application.id), method: :post, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mt-2" %>
-            <% end %>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% else %>
-        <p>No applications yet.</p>
+        <p class="text-center text-gray-500 py-8">No applications yet.</p>
       <% end %>
     </div>
+
   <% end %>
 
-  <div class="mt-4 flex gap-2">
+  <div class="m-4 flex gap-2 justify-center">
     <%= link_to 'Edit', edit_job_path(@job), class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" if current_user == @job.user %>
     <%= link_to 'Back', jobs_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+  </div>
+</div>
+
+<script type="module">
+  import "jobs";
+</script>

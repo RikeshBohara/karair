@@ -41,8 +41,9 @@ class ProfilesController < ApplicationController
   end
 
   def require_profile_completed!
-    return if @profile.user == current_user && current_user.profile_completed
-    redirect_to edit_profile_path(@profile.user.id), alert: "Please complete your profile first."
+    if @profile.user == current_user && !current_user.profile_completed
+      redirect_to edit_profile_path(@profile.user.id), alert: "Please complete your profile first."
+    end
   end
 
   def profile_params

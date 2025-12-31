@@ -41,6 +41,9 @@
     <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
+  <% if current_user.profile&.photo&.attached? %>
+    <%= image_tag url_for(current_user.profile.avatar_variant(80)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:80px;width:80px;" %>
+  <% end %>
 
   <div class="flex items-center justify-between gap-3 mt-3">
     <%= f.label :resume, "Resume", class: "text-sm text-gray-700 w-24" %>
@@ -51,4 +54,7 @@
     <%= f.label :photo, "Photo", class: "text-sm text-gray-700 w-24" %>
     <%= f.file_field :photo, accept: "image/*", class: "cursor-pointer rounded-md border border-gray-300 bg-white py-1 px-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-48" %>
   </div>
+  <% if current_user.profile&.photo&.attached? %>
+    <%= image_tag url_for(current_user.profile.avatar_variant(80)), alt: "Avatar", loading: "lazy", class: "rounded-full object-cover border-2 border-gray-300", style: "height:80px;width:80px;" %>
+  <% end %>
 <% end %>

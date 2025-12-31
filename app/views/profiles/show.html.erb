@@ -1,49 +1,49 @@
-<div class="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 px-6">
+<div class="flex flex-col items-center justify-center bg-gray-100 ">
+  <div class="flex min-w-1/2 justify-around gap-6 bg-white px-6 rounded-xl shadow-md p-8" style="height: 70vh">
+    <div class="flex flex-col items-center justify-around">
+      <h2 class="text-2xl text-gray-800 mb-6 text-center">
+        Profile
+      </h2>
 
-  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8">
-    <h2 class="text-2xl text-gray-800 mb-6 text-center">
-      Profile
-    </h2>
+      <%# Profile Photo %>
+      <div class="flex justify-center mb-4">
+        <% if @profile.photo.attached? %>
+          <%= image_tag url_for(@profile.photo), alt: "Profile Photo", class: "w-50 h-50 rounded-full object-cover" %>
+        <% else %>
+          <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">
+            No Photo
+          </div>
+        <% end %>
+      </div>
 
-    <%# Profile Photo %>
-    <div class="flex justify-center mb-4">
-      <% if @profile.photo.attached? %>
-        <%= image_tag url_for(@profile.photo), alt: "Profile Photo", class: "w-32 h-32 rounded-full object-cover" %>
-      <% else %>
-        <div class="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-gray-500">
-          No Photo
-        </div>
-      <% end %>
+      <%# Basic info %>
+      <ul class="space-y-2 text-gray-700">
+        <% if @profile.user.applicant? %>
+          <li><span class="mr-10">First Name</span>: <%= @profile.first_name %></li>
+          <li><span class="mr-10">Last Name</span>: <%= @profile.last_name %></li>
+        <% elsif @profile.user.recruiter? %>
+          <li><span class="mr-19.5">Name</span>: <%= @profile.company_name %></li>
+        <% end %>
+
+        <li><span class="mr-14.5">Industry</span>: <%= @profile.headline.presence || "N/A" %></li>
+        <li><span class="mr-14">Location</span>: <%= @profile.location %></li>
+        <li><span class="mr-15.5">Contact</span>: <%= @profile.contact %></li>
+      </ul>
     </div>
-
-    <%# Basic info %>
-    <ul class="space-y-2 text-gray-700">
-      <% if @profile.user.applicant? %>
-        <li><span class="mr-10">First Name</span>: <%= @profile.first_name %></li>
-        <li><span class="mr-10">Last Name</span>: <%= @profile.last_name %></li>
-      <% elsif @profile.user.recruiter? %>
-        <li><span class="mr-19.5">Name</span>: <%= @profile.company_name %></li>
-      <% end %>
-
-      <li><span class="mr-14.5">Industry</span>: <%= @profile.headline.presence || "N/A" %></li>
-      <li><span class="mr-14">Location</span>: <%= @profile.location %></li>
-      <li><span class="mr-15.5">Contact</span>: <%= @profile.contact %></li>
-
-      <% if @profile.user.applicant? %>
-        <li><span class="mr-15.5">
-          Resume</span>:
-          <% if @profile.resume.attached? %>
-            <a href="<%= url_for(@profile.resume) %>" target="_blank" class="text-blue-600 hover:underline">Download</a>
-          <% else %>
-            Not uploaded
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-
-    <div class="mt-6 flex justify-between">
-      <%= link_to "Edit Profile", edit_profile_path(@profile), class: "bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200" %>
-      <%= link_to "Back", :back, class: "text-gray-600 hover:underline self-center" %>
-    </div>
+    <% if @profile.user.applicant? %>
+      <div>
+        <% if @profile.resume.attached? %>
+        <embed src="<%= url_for(@profile.resume) %>" type="application/pdf" width="402px" height="100%">
+        <% else %>
+          Not uploaded
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="mt-6 flex gap-7 justify-around">
+    <% if @profile.user == current_user %>
+      <%= link_to "Edit Profile", edit_profile_path(@profile.user.id), class: "bg-blue-600 text-white py-2 px-4 rounded mt-4 inline-block" %>
+    <% end %>
+    <%= link_to 'Back', jobs_path, class: "bg-gray-700 text-white py-2 px-4 rounded mt-4 inline-block" %>
   </div>
 </div>
