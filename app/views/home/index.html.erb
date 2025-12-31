@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-gray-100">
   <div class="max-w-7xl mx-auto p-6">
     <% if user_signed_in? && current_user.applicant? %>
-      <div class="mt-8">
-        <h2 class="text-xl font-semibold text-gray-800">Your Applied Jobs</h2>
+      <div">
+        <h2 class="text-2xl text-center text-gray-800">Your Applied Jobs</h2>
         <% if @applied_jobs.present? %>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <% @applied_jobs.each do |job| %>
@@ -15,49 +15,7 @@
                   </div>
                 <% end %>
                 <div class="p-5 flex-grow">
-                  <h2 class="text-xl font-semibold text-gray-800 mb-2">
-                    <%= link_to job.title, job, class: "hover:text-blue-600" %>
-                  </h2>
-                  <p class="text-gray-600 text-sm mb-1">
-                    <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
-                  </p>
-                  <p class="text-gray-600 text-sm mb-3">
-                    <i class="fas fa-briefcase mr-1 text-gray-500 text-base"></i> <%= job.job_type %>
-                  </p>
-                  <p class="text-gray-600 text-sm mb-3">
-                    <i class="fas fa-calendar-alt mr-1 text-gray-500 text-base"></i> Application deadline: <%= job.end_date.strftime("%B %d, %Y") %>
-                  </p>
-                  <div class="text-sm text-gray-700 leading-relaxed line-clamp-3">
-                    <%= job.description %>
-                  </div>
-                  <div class="mt-4 flex justify-between items-center">
-                    <span class="text-sm text-green-600 font-semibold">Applied</span>
-                    <%= link_to 'View Details', job, class: "text-blue-600 hover:text-blue-700 font-medium" %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="mt-4 text-gray-600">You haven't applied to any jobs yet.</p>
-        <% end %>
-      </div>
-    <% elsif user_signed_in? && current_user.recruiter? %>
-      <div class="mt-8">
-        <h2 class="text-xl font-semibold text-gray-800">Your Active Jobs</h2>
-        <% if @active_jobs.present? %>
-          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <% @active_jobs.each do |job| %>
-              <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 flex flex-col">
-                <% if job.image.attached? %>
-                  <%= image_tag job.image.variant(:card_image), class: "w-full h-48 object-cover flex-shrink-0" %>
-                <% else %>
-                  <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500 flex-shrink-0">
-                    No Image
-                  </div>
-                <% end %>
-                <div class="p-5 flex-grow">
-                  <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                  <h2 class="text-xl text-gray-800 mb-2">
                     <%= link_to job.title, job, class: "hover:text-blue-600" %>
                   </h2>
                   <p class="text-gray-600 text-sm mb-1">
@@ -72,6 +30,51 @@
                   <p class="text-gray-600 text-sm mb-3">
                     <i class="fas fa-users mr-1 text-gray-500 text-base"></i> <%= pluralize(job.job_applications.count, "applicant") %>
                   </p>
+                  <div class="mt-4 flex justify-between items-center">
+                    <span class="text-sm text-green-600">Applied</span>
+                    <%= link_to 'View Details', job, class: "text-blue-600 hover:text-blue-700 font-medium" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="mt-4 text-gray-600">You haven't applied to any jobs yet.</p>
+        <% end %>
+      </div>
+    <% elsif user_signed_in? && current_user.recruiter? %>
+      <div>
+        <h2 class="text-2xl text-center text-gray-800">Your Active Jobs</h2>
+        <% if @active_jobs.present? %>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @active_jobs.each do |job| %>
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 flex flex-col">
+                <% if job.image.attached? %>
+                  <%= image_tag job.image.variant(:card_image), class: "w-full h-48 object-cover flex-shrink-0" %>
+                <% else %>
+                  <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500 flex-shrink-0">
+                    No Image
+                  </div>
+                <% end %>
+                <div class="p-5 flex-grow">
+                  <h2 class="text-xl text-gray-800 mb-2">
+                    <%= link_to job.title, job, class: "hover:text-blue-600" %>
+                  </h2>
+                  <p class="text-gray-600 text-sm mb-1">
+                    <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-briefcase mr-1 text-gray-500 text-base"></i> <%= job.job_type %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-calendar-alt mr-1 text-gray-500 text-base"></i> Application deadline: <%= job.end_date.strftime("%B %d, %Y") %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-users mr-1 text-gray-500 text-base"></i> <%= pluralize(job.job_applications.count, "applicant") %>
+                  </p>
+                  <div class="mt-4 flex justify-between items-center">
+                    <%= link_to 'View Details', job, class: "text-blue-600 hover:text-blue-700 font-medium" %>
+                  </div>
                 </div>
               </div>
             <% end %>
@@ -81,8 +84,8 @@
         <% end %>
       </div>
 
-      <div class="mt-8">
-        <h2 class="text-xl font-semibold text-gray-800">Your Expired Jobs</h2>
+      <div class="mt-[80px]">
+        <h2 class="text-2xl text-center text-gray-800">Your Expired Jobs</h2>
         <% if @expired_jobs.present? %>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <% @expired_jobs.each do |job| %>
@@ -95,10 +98,24 @@
                   </div>
                 <% end %>
                 <div class="p-5 flex-grow">
-                  <h3 class="text-lg font-semibold text-gray-800"><%= link_to job.title, job, class: "hover:text-blue-600" %></h3>
-                  <p class="text-gray-600 text-sm"><%= job.location %></p>
-                  <p class="text-gray-600 text-sm"><%= job.job_type %></p>
-                  <p class="text-gray-600 text-sm"><%= pluralize(job.job_applications.count, "applicant") %></p>
+                  <h2 class="text-xl text-gray-800 mb-2">
+                    <%= link_to job.title, job, class: "hover:text-blue-600" %>
+                  </h2>
+                  <p class="text-gray-600 text-sm mb-1">
+                    <i class="fas fa-map-marker-alt mr-1 text-gray-500 text-base"></i> <%= job.location %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-briefcase mr-1 text-gray-500 text-base"></i> <%= job.job_type %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-calendar-alt mr-1 text-gray-500 text-base"></i> Application deadline: <%= job.end_date.strftime("%B %d, %Y") %>
+                  </p>
+                  <p class="text-gray-600 text-sm mb-3">
+                    <i class="fas fa-users mr-1 text-gray-500 text-base"></i> <%= pluralize(job.job_applications.count, "applicant") %>
+                  </p>
+                  <div class="mt-4 flex justify-between items-center">
+                    <%= link_to 'View Details', job, class: "text-blue-600 hover:text-blue-700 font-medium" %>
+                  </div>
                 </div>
               </div>
             <% end %>

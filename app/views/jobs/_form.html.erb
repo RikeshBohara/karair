@@ -2,7 +2,7 @@
   <%= form_with(model: job, local: true) do |form| %>
     <% if job.errors.any? %>
       <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-        <strong class="font-bold">Error!</strong>
+        <strong>Error!</strong>
         <span class="block sm:inline"><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</span>
 
         <ul class="mt-2 list-disc list-inside">
@@ -14,43 +14,43 @@
     <% end %>
 
     <div class="mb-4">
-      <%= form.label :title, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :title, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.text_field :title, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :description, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :description, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.text_area :description, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :location, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :location, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.text_field :location, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :job_type, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :job_type, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.select :job_type, Job.job_types.keys, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :end_date, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :end_date, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.date_field :end_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :image, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.label :image, class: "block text-gray-700 text-sm mb-2" %>
       <%= form.file_field :image, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       <% if job.image.attached? %>
         <div class="mt-2 flex items-center">
           <%= image_tag job.image, class: "w-20 h-20 object-cover rounded mr-2" %>
-          <%= form.check_box :remove_image %> <%= form.label :remove_image, "Remove image" %>
         </div>
       <% end %>
     </div>
 
     <div class="actions">
       <%= form.submit class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <%= link_to 'Back', jobs_path, class: "bg-gray-500 bg-gray-700 text-white py-2 px-4 rounded mt-4 inline-block" %>
     </div>
   <% end %>
 </div>

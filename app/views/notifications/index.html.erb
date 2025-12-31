@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-8">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Your Notifications</h1>
+    <h1 class="text-3xl text-gray-800">Your Notifications</h1>
     <div class="flex space-x-4">
       <%= link_to "Unread", notifications_path, class: "px-4 py-2 rounded-md text-sm font-medium #{'bg-blue-600 text-white' if params[:status] != 'all'}" %>
       <%= link_to "All", notifications_path(status: 'all'), class: "px-4 py-2 rounded-md text-sm font-medium #{'bg-blue-600 text-white' if params[:status] == 'all'}" %>
