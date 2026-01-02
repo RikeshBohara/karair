@@ -7,12 +7,14 @@ class ProfilesController < ApplicationController
   before_action :require_profile_completed!, only: [ :show ]
 
   def show
-    respond_with(@profile.user.id)
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def edit
     @hide_navbar = true
-    respond_with(@profile.user.id)
   end
 
   def update

@@ -34,9 +34,15 @@ class JobApplicationsController < ApplicationController
         notifiable: @job_application,
         message: "#{current_user.profile.first_name} #{current_user.profile.last_name} applied to your job '#{@job.title}'"
       )
-      redirect_to @job, notice: "You have successfully applied for this job."
+      respond_to do |format|
+        format.html { redirect_to @job, notice: "You have successfully applied for this job." }
+        format.json { render :show, status: :created }
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: { errors: @job_application.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -27,9 +27,15 @@ class JobsController < ApplicationController
   def create
     @job = current_user.jobs.build(job_params)
     if @job.save
-      redirect_to @job, notice: "Job was successfully created."
+      respond_to do |format|
+        format.html { redirect_to @job, notice: "Job was successfully created." }
+        format.json { render :show, status: :created }
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: { errors: @job.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -38,15 +44,24 @@ class JobsController < ApplicationController
 
   def update
     if @job.update(job_params.except(:remove_image))
-      redirect_to @job, notice: "Job was successfully updated."
+      respond_to do |format|
+        format.html { redirect_to @job, notice: "Job was successfully updated." }
+        format.json { render :show, status: :ok }
+      end
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: { errors: @job.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @job.destroy
-    redirect_to jobs_url, notice: "Job was successfully destroyed."
+    respond_to do |format|
+      format.html { redirect_to jobs_url, notice: "Job was successfully destroyed." }
+      format.json { head :no_content }
+    end
   end
 
   def send_interview_email
