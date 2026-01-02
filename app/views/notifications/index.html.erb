@@ -17,7 +17,7 @@
     <% if @notifications.any? %>
       <div class="divide-y divide-gray-100">
         <% @notifications.each do |notification| %>
-          <%= link_to mark_as_read_notification_path(notification), method: :post, class: "block hover:bg-gray-50 transition-colors #{notification.read_at? ? 'bg-white' : 'bg-blue-50'}" do %>
+          <%= link_to mark_as_read_notification_path(notification), data: { turbo_method: :post }, class: "block hover:bg-gray-50 transition-colors #{notification.read_at? ? 'bg-white' : 'bg-blue-50'}" do %>
             <div class="px-6 py-4 flex items-start gap-4">
               <div class="flex-shrink-0">
                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
