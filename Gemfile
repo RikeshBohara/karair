@@ -45,7 +45,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Dotenv
-gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
+gem "dotenv-rails", "~> 3.2"
 
 # Devise
 gem "devise", "~> 4.9", ">= 4.9.4"
