@@ -85,6 +85,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
     database: karair_production
     username: karair
     password: <%= ENV["KARAIR_DATABASE_PASSWORD"] %>
